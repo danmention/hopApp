@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hopleaders/screens/profileScreen.dart';
 import 'package:hopleaders/screens/reportHistoryScreen.dart';
+import 'package:hopleaders/screens/viewTestimonyScreen.dart';
 
 import '../models/response/login_response.dart';
 import '../screens/signInScreen.dart';
@@ -62,8 +63,17 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.border_color),
-            title: Text('HOP Testimony'),
-            onTap: () => {Navigator.of(context).pop()},
+            title: Text('Testimony / Visions'),
+            onTap: () => {
+
+              Navigator.of(context).pop(),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>  ViewTestimony()),
+              )
+
+
+            },
           ),
 
           // ListTile(

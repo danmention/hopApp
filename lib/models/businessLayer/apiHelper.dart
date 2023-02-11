@@ -17,6 +17,8 @@ import '../response/hopwinners_response.dart';
 import '../response/login_response.dart';
 import '../response/registeration_complete_response.dart';
 import '../response/signup_response.dart';
+import '../response/testimony_response.dart';
+import '../response/viewtestimony_response.dart';
 import '../response/zone_response.dart';
 import '../termsAndConditionModel.dart';
 
@@ -937,6 +939,9 @@ class APIHelper {
   //   }
   // }
   //
+
+
+
   Future<dynamic> getTermsAndCondition() async {
     try {
       Response response;
@@ -1048,70 +1053,29 @@ class APIHelper {
     }
   }
 
-  // Future<dynamic> onScratch(int scratch_id, int user_id) async {
-  //   try {
-  //     final response = await http.post(
-  //       Uri.parse("${global.baseUrl}scratch"),
-  //       headers: await global.getApiHeaders(true),
-  //       body: json.encode({"user_id": user_id, "scratch_id": scratch_id}),
-  //     );
-  //
-  //     dynamic recordList;
-  //     if (response.statusCode == 200 && json.decode(response.body)["status"] == "1") {
-  //       recordList = ScratchCard.fromJson(json.decode(response.body)["data"]);
-  //     } else {
-  //       recordList = null;
-  //     }
-  //     return getAPIResult(response, recordList);
-  //   } catch (e) {
-  //     print("Exception - onScratch(): " + e.toString());
-  //   }
-  // }
+  Future<dynamic> getTestimonyList(int pageNumber, ) async {
+    try {
 
-  // Future<dynamic> privacyPolicy() async {
-  //   try {
-  //     Response response;
-  //     var dio = Dio();
-  //
-  //     response = await dio.get('${global.baseUrl}privacy',
-  //         queryParameters: {
-  //           'lang': global.languageCode,
-  //         },
-  //         options: Options(
-  //           headers: await global.getApiHeaders(false),
-  //         ));
-  //     dynamic recordList;
-  //     if (response.statusCode == 200) {
-  //       recordList = PrivacyPolicy.fromJson(response.data['data']);
-  //     } else {
-  //       recordList = null;
-  //     }
-  //     return getDioResult(response, recordList);
-  //   } catch (e) {
-  //     print("Exception - privacyPolicy(): " + e.toString());
-  //   }
-  // }
 
-  // Future<dynamic> productCartCheckout(int user_id, String payment_status, String payment_gateway, {String payment_id}) async {
-  //   try {
-  //     final response = await http.post(
-  //       Uri.parse("${global.baseUrl}product_cart_checkout"),
-  //       headers: await global.getApiHeaders(true),
-  //       body: json.encode({"user_id": user_id, "payment_status": payment_status, "payment_gateway": payment_gateway, "payment_id": payment_id, "lang": global.languageCode}),
-  //     );
-  //
-  //     dynamic recordList;
-  //     if (response.statusCode == 200 && json.decode(response.body)["status"] == "1" || json.decode(response.body)["status"] == "2") {
-  //       recordList = ProductCartCheckout.fromJson(json.decode(response.body)["data"]["order"]);
-  //       global.user.cart_count = json.decode(response.body)['data']['cart_count'];
-  //     } else {
-  //       recordList = null;
-  //     }
-  //     return getAPIResult(response, recordList);
-  //   } catch (e) {
-  //     print("Exception - productCartCheckout(): " + e.toString());
-  //   }
-  // }
+      final response = await http.get(
+        Uri.parse("${global.baseUrl}user/testimony/all?page=${pageNumber.toString()}"),
+        headers: await global.getApiHeaders(true),
+
+      );
+
+      dynamic recordList;
+
+      if (response.statusCode == 200 && json.decode(response.body)["resp_code"] == "00") {
+        recordList = List<Testimony>.from(json.decode(response.body)["data"]["data"].map((x) => Testimony.fromJson(x)));
+      } else {
+        recordList = null;
+      }
+      return getAPIResult(response, recordList);
+    } catch (e) {
+      print("Exception - getTestimonyList(): " + e.toString());
+    }
+  }
+
 
 
   Future<dynamic> loginWithEmail(Loginrequest user) async {
@@ -1222,8 +1186,75 @@ class APIHelper {
 
 
 
+  Future<dynamic> submitTestimony({
+    String? title,
+
+    String ? desc,
+    String? user_id
+
+  }) async {
+    try {
+      Response response;
+      var dio = Dio();
+      var formData = FormData.fromMap({
+        "user_id":user_id,
+        "title": title,
+        'desc': desc,
+      });
+
+      response = await dio.post('${global.baseUrl}user/testimony/create',
+          data: formData,
+          options: Options(
+            headers: await global.getApiHeaders(true),
+          ));
+      dynamic recordList;
+      if (response.statusCode == 200) {
+        recordList = TestimonyResponse.fromJson(response.data['data']);
+        //  recordList.token = response.data["token"];
+      } else {
+        recordList = null;
+      }
+      return getDioResult(response, recordList);
+    } catch (e) {
+      print("Exception - submittestimony(): " + e.toString());
+    }
+  }
 
 
+
+  Future<dynamic> submitQuestion({
+
+
+    String ? desc,
+    String? user_id
+
+  }) async {
+    try {
+      Response response;
+      var dio = Dio();
+      var formData = FormData.fromMap({
+        "user_id":user_id,
+        "title": "Questions Asked",
+        'desc': desc,
+      });
+
+      response = await dio.post('${global.baseUrl}user/testimony/create',
+          data: formData,
+          options: Options(
+            headers: await global.getApiHeaders(true),
+          ));
+      dynamic recordList;
+      if (response.statusCode == 200) {
+        recordList = TestimonyResponse.fromJson(response.data['data']);
+        //  recordList.token = response.data["token"];
+      } else {
+        recordList = null;
+      }
+      return getDioResult(response, recordList);
+    } catch (e) {
+      print("Exception - submittestimony(): " + e.toString());
+    }
+  }
 
 
 

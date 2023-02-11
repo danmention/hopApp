@@ -178,15 +178,12 @@ class _HomeScreenState extends BaseState{
 
 
 
-
-    var image = new Image.network("http://www.gstatic.com/webp/gallery/1.jpg");
-
 var containerList = [
   TopMenu(title: 'Events', subtitle: ' View events', color: Colors.green, route: 'event', iconData: FontAwesomeIcons.bell),
   TopMenu(title: 'Latest Hop', subtitle: ' New Hop Near you', color: Colors.orange,route: 'allhop', iconData: FontAwesomeIcons.addressBook),
   TopMenu(title: 'Testify', subtitle: ' Share Testimony', color: Colors.red,route: 'sharetestimony', iconData: FontAwesomeIcons.bible,)
 ,
-  TopMenu(title: 'Questions', subtitle: ' Send us a feedback', color: Colors.brown, route: '',iconData: FontAwesomeIcons.question,),
+  TopMenu(title: 'Questions', subtitle: ' Send us a feedback', color: Colors.brown, route: 'feedback',iconData: FontAwesomeIcons.question,),
 
 ];
 
@@ -334,7 +331,23 @@ var containerList = [
                     ),
                     title: Text(_hopDigestList[index].title!, overflow: TextOverflow.ellipsis, ),
                     subtitle: Container(
-                        width:200, child: Text(_hopDigestList[index].desc!, overflow: TextOverflow.ellipsis, )),
+                        width:200, child:
+
+                    Html(
+                      data: _hopDigestList[index].desc,
+                      style: {
+                        '#': Style(
+                          fontSize: FontSize(12),
+                          maxLines: 1,
+                          textOverflow: TextOverflow.ellipsis,
+                        ),
+                      },
+                    ),
+                    //Text(_hopDigestList[index].desc!, overflow: TextOverflow.ellipsis, )
+
+
+
+                    ),
                     trailing: const Icon(Icons.house),
                   ),
                 );

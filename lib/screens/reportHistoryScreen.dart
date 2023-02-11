@@ -3,6 +3,7 @@ import 'package:hopleaders/models/response/hopreport_response.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:hopleaders/models/businessLayer/global.dart' as global;
 import '../models/businessLayer/base.dart';
+import '../widget/navbar.dart';
 
 class ReportHistoryScreen extends Base {
 
@@ -25,8 +26,9 @@ class _ReportHistoryScreenState extends BaseState{
     return Scaffold(
 
       key: _scaffoldKey,
+      drawer: NavDrawer(),
       appBar: AppBar(
-        title: Text('Hop History'),
+        title: Text('Hop History', ),centerTitle: true,
         //automaticallyImplyLeading: false,
       ),
         body: _isDataLoaded
@@ -58,7 +60,7 @@ class _ReportHistoryScreenState extends BaseState{
                       padding: const EdgeInsets.all(8.0),
                       child: Text('NGN ${_hopReportList[index].offering}' ,style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                     ),
-                    decoration: BoxDecoration(color: Colors.orange),)
+                    decoration: BoxDecoration(color: Colors.orange,borderRadius: BorderRadius.all(Radius.circular(5))))
                   ],),
 
                   SizedBox(height: 10,),

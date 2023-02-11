@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:hopleaders/models/DigestModel.dart';
 import 'package:hopleaders/models/response/hopdigest_response.dart';
 
@@ -45,7 +46,20 @@ class DigestDetailScreen extends StatelessWidget {
                       SizedBox(height: 30,),
                       Text(digestModel.title!, style: Theme.of(context).primaryTextTheme.caption, textAlign: TextAlign.center,),
                       SizedBox(height: 30,),
-                      Text(digestModel.desc!, style: TextStyle(wordSpacing: 5),),
+                      Html(
+                        data: digestModel.desc,
+                        style: {
+                          '#': Style(
+                            fontSize: FontSize(16),
+                            // maxLines: 1,
+                            // textOverflow: TextOverflow.ellipsis,
+                          ),
+                        },
+                      ),
+
+                    //  Text(digestModel.desc!, style: TextStyle(wordSpacing: 5),),
+
+
                       SizedBox(height: 30,),
                     ],),
                   ),

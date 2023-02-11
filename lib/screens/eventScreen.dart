@@ -8,6 +8,7 @@ import 'package:shimmer/shimmer.dart';
 import '../models/businessLayer/base.dart';
 
 import '../models/eventModel.dart';
+import '../widget/navbar.dart';
 import 'eventDetailScreen.dart';
 
 class EventScreen extends Base {
@@ -40,9 +41,11 @@ class _EventScreenState extends BaseState {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      drawer: NavDrawer(),
       appBar:  AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('Events', textAlign: TextAlign.center,),
+        //automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: Text('Upcoming Events', textAlign: TextAlign.center,),
       ),
       body: Column(
         children: [
@@ -234,49 +237,7 @@ class _EventScreenState extends BaseState {
       print("Exception - eventScreen.dart - _initFinal():" + e.toString());
     }
   }
-  // Widget _shimmer() {
-  //   return Padding(
-  //     padding: const EdgeInsets.all(15),
-  //     child: Shimmer.fromColors(
-  //       baseColor: Colors.grey[300]!,
-  //       highlightColor: Colors.grey[100]!,
-  //       child: ListView.builder(
-  //           shrinkWrap: true,
-  //           itemCount: 8,
-  //           itemBuilder: (BuildContext context, int index) {
-  //             return Column(
-  //               children: [
-  //                 Row(
-  //                   mainAxisAlignment: MainAxisAlignment.start,
-  //                   children: [
-  //                     // CircleAvatar(
-  //                     //   radius: 40,
-  //                     //   child: Card(margin: EdgeInsets.only(top: 5, bottom: 5)),
-  //                     // ),
-  //                     Column(
-  //                       crossAxisAlignment: CrossAxisAlignment.start,
-  //                       children: [
-  //                         SizedBox(
-  //                           width: MediaQuery.of(context).size.width - 220,
-  //                           height: 30,
-  //                           child: Card(margin: EdgeInsets.only(top: 5, bottom: 5, left: 5)),
-  //                         ),
-  //                         SizedBox(
-  //                           width: MediaQuery.of(context).size.width - 120,
-  //                           height: 20,
-  //                           child: Card(margin: EdgeInsets.only(top: 5, bottom: 5, left: 5)),
-  //                         ),
-  //                       ],
-  //                     )
-  //                   ],
-  //                 ),
-  //
-  //               ],
-  //             );
-  //           }),
-  //     ),
-  //   );
-  // }
+
   Widget _shimmer() {
     return Padding(
       padding: const EdgeInsets.all(5),

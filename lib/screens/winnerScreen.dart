@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hopleaders/models/businessLayer/global.dart' as global;
+import 'package:hopleaders/widget/navbar.dart';
+import 'package:shimmer/shimmer.dart';
 import '../models/businessLayer/base.dart';
 import '../models/response/hopwinners_response.dart';
 
@@ -20,26 +22,36 @@ class _WinnerScreenState extends BaseState{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Winner'),),
+      drawer: NavDrawer(),
+      appBar: AppBar(title: Text('Winner'),
+        centerTitle: true,),
+
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal:18.0, vertical: 24),
-            child: Column(children: [
-                ListView.builder(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal:18.0, vertical: 24),
+          child: Column(children: [
+
+            _isDataLoaded
+                ? _winnersList.length > 0
+                ?
+              Expanded(
+                child: ListView.builder(
 
                 itemCount: _winnersList.length,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index){
                   return  Column(
                     children: [
-                      Center(
+                      Container(
+
                         child: _winnersList[index].profileImage != ''
                             ? CachedNetworkImage(
                           imageUrl: _winnersList[index].profileImage??" ",
+                          fit: BoxFit.cover,
                           imageBuilder: (context, imageProvider) => Container(
                             height: 300,
-                            //width: MediaQuery.of(context).size.height * 0.17,
+
+                            width: 400,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               color: Theme.of(context).cardTheme.color,
@@ -82,23 +94,32 @@ class _WinnerScreenState extends BaseState{
                       SizedBox(height: 20,),
                       Text(_winnersList[index].fullName!, style: Theme.of(context).primaryTextTheme.caption,),
                       Text(_winnersList[index].areaName!),
-                      SizedBox(height: 20,),
+                      SizedBox(height: 10,),
                       Divider(
                         thickness: 0.6,
                           color: Colors.blueGrey
-                      )
+                      ),
+                      SizedBox(height: 10,),
                     ],
                   );
                 }),
+              )
 
-             // Image.asset(  "assets/profile.jpg",),
+                :
+
+            Center(
+              child: Text(
+                "Latest Event's Will Be Shown Here",
+                style: Theme.of(context).primaryTextTheme.subtitle2,
+              ),
+            )
+                : _shimmer(),
 
 
 
-             
 
-            ],),
-          ),
+
+          ],),
         ),
       ),
     );
@@ -157,7 +178,62 @@ class _WinnerScreenState extends BaseState{
     }
   }
 
+  Widget _shimmer() {
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: Column(
+          children: [
+            // CircleAvatar(
+            //   radius: 60,
+            //   child: Card(),
+            // ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 5,
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 80,
+                            height: 80,
+                            child: Card(margin: EdgeInsets.only(top: 5, bottom: 5)),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width - 250,
+                                height: 40,
+                                child: Card(margin: EdgeInsets.only(top: 5, bottom: 5, left: 5)),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width - 150,
+                                height: 40,
+                                child: Card(margin: EdgeInsets.only(top: 5, bottom: 5, left: 5)),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
 
+                    ],
+                  );
+                }),
+          ],
+        ),
+      ),
+    );
+  }
   @override
   void initState() {
     _init();
