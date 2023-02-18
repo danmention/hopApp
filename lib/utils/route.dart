@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hopleaders/screens/eventScreen.dart';
 import 'package:hopleaders/screens/feedbackScreen.dart';
+import 'package:hopleaders/screens/hopdigestScreen.dart';
 import 'package:hopleaders/screens/sendTestimonyScreen.dart';
 import 'package:hopleaders/screens/winnerScreen.dart';
 
@@ -37,6 +38,9 @@ class RouteGenerator{
 
       case "hopcategory":
         return MaterialPageRoute(builder: (_) => ChooseCategory());
+
+      case "hopdigest":
+        return MaterialPageRoute(builder: (_) => hopDigestScreen());
 
       case "allhop":
         return MaterialPageRoute(builder: (_) => AllHopScreen());

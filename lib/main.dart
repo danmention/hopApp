@@ -6,15 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+
 import 'package:hopleaders/screens/homeScreen.dart';
 import 'package:hopleaders/screens/splashScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hopleaders/utils/nativeTheme.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:workmanager/workmanager.dart';
+import 'models/response/login_response.dart';
 import 'utils/route.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 // int id = 0;
 //
 // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -98,9 +103,17 @@ void callbackDispatcher() {
 }
 
 
+Box? box;
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+
+  Hive.init((await getApplicationDocumentsDirectory()).path);
+
+
+
+
+
 
   Workmanager().initialize(
       callbackDispatcher, // The top level function, aka callbackDispatcher

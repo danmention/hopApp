@@ -8,6 +8,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hopleaders/models/response/hopdigest_response.dart';
 import 'package:hopleaders/screens/digestDetailScreen.dart';
+import 'package:hopleaders/screens/eventDetailScreen.dart';
 import 'package:hopleaders/screens/prayForHopScreen.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -51,18 +52,18 @@ class _HomeScreenState extends BaseState{
   bool _isMoreDataLoaded = false;
   ScrollController _scrollController = ScrollController();
   int pageNumber = 0;
-
+  List<Event>  eventlist = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    _init();
     // _isAndroidPermissionGranted();
     // _requestPermissions();
    // service = LocalNotificationService();
    // service.intialize();
-    _init();
+   // _init();
    // _configureDidReceiveLocalNotificationSubject();
  // _configureSelectNotificationSubject();
   }
@@ -181,7 +182,7 @@ class _HomeScreenState extends BaseState{
 var containerList = [
   TopMenu(title: 'Events', subtitle: ' View events', color: Colors.green, route: 'event', iconData: FontAwesomeIcons.bell),
   TopMenu(title: 'Latest Hop', subtitle: ' New Hop Near you', color: Colors.orange,route: 'allhop', iconData: FontAwesomeIcons.addressBook),
-  TopMenu(title: 'Testify', subtitle: ' Share Testimony', color: Colors.red,route: 'sharetestimony', iconData: FontAwesomeIcons.bible,)
+  TopMenu(title: 'Hop Digest', subtitle: ' Read Hop Digest', color: Colors.red,route: 'hopdigest', iconData: FontAwesomeIcons.bible,)
 ,
   TopMenu(title: 'Questions', subtitle: ' Send us a feedback', color: Colors.brown, route: 'feedback',iconData: FontAwesomeIcons.question,),
 
@@ -268,21 +269,21 @@ var containerList = [
 
 
 
-        // Container(
-        //   child: SingleChildScrollView(
-        //     scrollDirection: Axis.horizontal,
-        //     child: Row(children: [
-        //       winner,winner,winner,winner,winner
-        //     ],),
-        //   ),
-        // ),
-
         Container(
-            height: 1,
-            width: 500,
-            color: Colors.black12
-
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(children: [
+           //   winner,winner,winner,winner,winner
+            ],),
+          ),
         ),
+
+        // Container(
+        //     height: 1,
+        //     width: 500,
+        //     color: Colors.black12
+        //
+        // ),
         SizedBox(height: 6,),
 
         Align(
@@ -290,80 +291,126 @@ var containerList = [
           // padding: const EdgeInsets.all(8.0),
           child: Padding(
             padding: const EdgeInsets.only(left: 16.0),
-            child: Text('Hop Digest', style: Theme.of(context).textTheme.bodyText1,),
+            child: Text('Latest Event', style: TextStyle(fontSize: 22)),
           ),
         ) ,
-        // GestureDetector(
-        //     onTap: (){
-        //
-        //     // service.showNotification(id: 2, title: " we are here", body: " Building universal life" );
-        //       service.showScheduledNotification(id: 2, title: " we are here", body: " Building universal life" , seconds: 5);
-        //     }
-        //     ,
-        //     child: Text('Hop Digest')),
 
-        // Container( height:
-        //   size.height * 0.3,
-        // ),
         SizedBox(height: 10),
 
-        _isDataLoaded
-            ? _hopDigestList.length > 0
-            ?
-        Expanded(
-          // height: size.height * 0.3,
-          // margin: EdgeInsets.only(top: 0),
-          child: ListView.builder(
-              itemCount: _hopDigestList.length,
+        Container(
+          height: 300,
+          width: 300,
+          child:
+
+          _isDataLoaded
+              ? eventlist.length > 0
+              ?
+
+          ListView.builder(
+              itemCount:  eventlist.length >= 5?5:eventlist.length,
               shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index){
-                return InkWell(
+              scrollDirection: Axis.horizontal,
+              itemBuilder:  (BuildContext context, int index) {
+                return
 
-                 onTap: (){
-                   Navigator.of(context).push(
-                     MaterialPageRoute(builder: (context) => DigestDetailScreen(_hopDigestList[index])),
-                   );
-                 },
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      //backgroundColor: Colors.purple,
-                      child: Image.asset('assets/logo.png'),
-                    ),
-                    title: Text(_hopDigestList[index].title!, overflow: TextOverflow.ellipsis, ),
-                    subtitle: Container(
-                        width:200, child:
 
-                    Html(
-                      data: _hopDigestList[index].desc,
-                      style: {
-                        '#': Style(
-                          fontSize: FontSize(12),
-                          maxLines: 1,
-                          textOverflow: TextOverflow.ellipsis,
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 8),
+
+                      child: InkWell(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        overlayColor: MaterialStateProperty.all(Colors.transparent),
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => EventDetailScreen(event:eventlist[index], )),
+                          );
+                        },
+                        child:
+
+                        Card(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child: Column(
+
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+
+                              eventlist[index].image != ''
+                                  ?
+
+
+
+
+                              Center(
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  imageUrl: eventlist[index].image??"",
+                                  // width: 400,
+                                  height: 200,
+                                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                  errorWidget: (context, url, error) => Icon(Icons.error),
+                                ),
+                              )
+                                  :
+
+                              Container(
+                                height: MediaQuery.of(context).size.height * 0.20,
+                                width: MediaQuery.of(context).size.height * 0.2,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).cardTheme.color,
+                                  borderRadius: new BorderRadius.all(
+                                    new Radius.circular(MediaQuery.of(context).size.height * 0.17),
+                                  ),
+                                  border: new Border.all(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 3.0,
+                                  ),
+                                ),
+                                child: Icon(
+                                  Icons.person,
+                                  size: 50,
+                                ),
+                              ),
+                              SizedBox(height: 2,),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(eventlist[index].title??"",    overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 20, color: Colors.black),),
+                                    // SizedBox(height: 4,),
+                                    // Text(eventlist[index].descriptions??"",
+                                    //   style: TextStyle(fontSize: 13, color: Colors.grey),
+                                    //   overflow: TextOverflow.ellipsis,)
+
+                                  ],),
+                              ),
+
+
+                            ],
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          elevation: 5,
+                          margin: EdgeInsets.all(5),
                         ),
-                      },
-                    ),
-                    //Text(_hopDigestList[index].desc!, overflow: TextOverflow.ellipsis, )
+                      ));
 
+              })
+              :
 
-
-                    ),
-                    trailing: const Icon(Icons.house),
-                  ),
-                );
-               // return CardDigest(heading: digesttList[index].name,cardImage: 'assets/logo.png',subheading: digesttList[index].description,);
-              }),
+          Center(
+            child: Text(
+              "Latest Event's Will Be Shown Here",
+              style: Theme.of(context).primaryTextTheme.subtitle2,
+            ),
+          )
+              : _shimmer(),
         )
 
-            :
-
-        Center(
-          child: Text(
-            "No Hop Digest ",
-            style: Theme.of(context).primaryTextTheme.subtitle2,
-          ),
-        )
-            : _shimmer()
       ],),
     );
   }
@@ -401,8 +448,7 @@ var containerList = [
   //   }
   // }
 
-
-  _getHopDigest() async {
+  _getEvent() async {
     try {
       bool isConnected = await br!.checkConnectivity();
       if (isConnected) {
@@ -411,26 +457,27 @@ var containerList = [
             _isMoreDataLoaded = true;
           });
 
-          if (_hopDigestList.isEmpty) {
+          if (eventlist.isEmpty) {
             pageNumber = 1;
           } else {
             pageNumber++;
           }
-          await apiHelper!.getHopDigest(pageNumber, ).then((result) {
+          await apiHelper?.getEventList( pageNumber).then((result) {
             if (result != null) {
               if (result.resp_code == "00") {
-                List<HopDigestResponse> _tList = result.recordList;
+
+                List<Event> _tList = result.recordList;
 
                 if (_tList.isEmpty) {
                   _isRecordPending = false;
                 }
 
-                _hopDigestList.addAll(_tList);
+                eventlist.addAll(_tList);
                 setState(() {
                   _isMoreDataLoaded = false;
                 });
               } else {
-                _hopDigestList = [];
+                eventlist = [];
               }
             }
           });
@@ -439,19 +486,21 @@ var containerList = [
         showNetworkErrorSnackBar(_scaffoldKey!);
       }
     } catch (e) {
-      print("Exception - homeScreen.dart - _getServices():" + e.toString());
+      print("Exception - eventListScreen.dart - _getServices():" + e.toString());
     }
   }
 
+
+
   _init() async {
     try {
-      await _getHopDigest();
+      await _getEvent();
       _scrollController.addListener(() async {
         if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && !_isMoreDataLoaded) {
           setState(() {
             _isMoreDataLoaded = true;
           });
-          await _getHopDigest();
+          await _getEvent();
           setState(() {
             _isMoreDataLoaded = false;
           });
@@ -460,9 +509,11 @@ var containerList = [
       _isDataLoaded = true;
       setState(() {});
     } catch (e) {
-      print("Exception - barberListScreen.dart - _initFinal():" + e.toString());
+      print("Exception - eventScreen.dart - _initFinal():" + e.toString());
     }
   }
+
+
 
   Widget _shimmer() {
     return Container(

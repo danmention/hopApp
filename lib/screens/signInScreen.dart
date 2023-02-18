@@ -4,12 +4,14 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
 import 'package:hopleaders/models/request/login_request.dart';
 import 'package:hopleaders/screens/signupScreen.dart';
 import 'package:hopleaders/widget/buttonWidget.dart';
 import 'package:hopleaders/models/businessLayer/global.dart' as global;
 import '../models/businessLayer/base.dart';
 
+import '../utils/biometrics.dart';
 import '../utils/constants.dart';
 import '../widget/input_widget.dart';
 import 'homeScreen.dart';
@@ -38,7 +40,7 @@ class _SignInScrrenState extends BaseState{
   bool _isRemember = false;
   bool _isPasswordVisible = false;
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-
+  Box? box;
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -119,6 +121,33 @@ class _SignInScrrenState extends BaseState{
                     SizedBox(
                       height: 15.0,
                     ),
+                      IconButton(
+                          iconSize: 60,
+                        onPressed: () async{
+                          bool authenticated = await LocalAuthApi.authenticateWithBiometrics();
+                          if(global.sp!.getString("currentUser") != null ){
+                            showSnackBar(snackBarMessage: " Login with email for the first time");
+
+                          }else{
+                            if (authenticated) {
+                              nextScreen(context, 'home');
+                            };
+                          }
+
+
+    },
+
+                        icon: Icon(Icons.fingerprint),
+                      ),
+
+
+
+
+
+
+
+
+
                     // Align(
                     //   alignment: Alignment.bottomRight,
                     //   child: GestureDetector(
@@ -182,11 +211,19 @@ class _SignInScrrenState extends BaseState{
                 global.sp?.setString('currentUser', json.encode(global.user.toJson()));
                 global.sp?.setString('currentToken', json.encode(global.token.toJson()));
 
+                box = await Hive.openBox("user");
+                box!.put('email', '${global.user.email}');
+               // global.sp?.setString('email',_cEmail.text );
+
+
 
                  hideLoader();
                 // nextScreen(context, 'home');
 
                 Navigator.of(context).pushNamedAndRemoveUntil('home', (Route<dynamic> route) => false);
+
+                 // bool authenticated = await authenticateWithBiometrics.authenticateUser();
+                //  print(authenticated);
                 // if (_isRemember) {
                 //   global.sp.setString('isRememberMeEmail', global.user.email);
                 // }
@@ -231,11 +268,29 @@ class _SignInScrrenState extends BaseState{
 
        // showSnackBar(key: _scaffoldKey, snackBarMessage: txt_please_enter_your_valid_email);
       } else if (_cPassword.text.isEmpty || _cPassword.text.trim().length < 5) {
-        showSnack(
-            snackBarMessage: txt_password_should_be_of_minimum_8_character);
+        showSnack(snackBarMessage: txt_password_should_be_of_minimum_8_character);
        }
     } catch (e) {
       print("Exception - signInScreen.dart - _loginWithEmail():" + e.toString());
     }
+  }
+
+  void addemail()async {
+    box = await Hive.openBox("user");
+    if( box!.get('email') !=  null){
+    _cEmail.text = box!.get('email');}
+  }
+
+
+  @override
+  void initState() {
+
+     addemail();
+     // WidgetsBinding.instance.addPostFrameCallback((_) async {
+     //   _cEmail.text = await addemail();
+     // });
+
+    // TODO: implement initState
+    super.initState();
   }
 }

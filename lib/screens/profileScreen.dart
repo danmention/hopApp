@@ -451,7 +451,7 @@ class _ProfileScreenState extends BaseState {
                   CupertinoDialogAction(
                     child: Text(btn_sign_out),
                     onPressed: () async {
-                      global.sp!.remove("currentUser");
+                     // global.sp!.remove("currentUser");
                       Navigator.of(context).pushNamedAndRemoveUntil('login', (Route<dynamic> route) => false);
                       //Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignInScreen()));
                       global.user = new CurrentUser();

@@ -39,7 +39,7 @@ Future<Map<String, String>> getApiHeaders(bool authorizationRequired) async {
     sp = await SharedPreferences.getInstance();
     if (sp!.getString("currentUser") != null) {
 
-      CurrentUser currentUser = CurrentUser.fromJson(json.decode(sp!.getString("currentUser")??" "));
+      user = CurrentUser.fromJson(json.decode(sp!.getString("currentUser")??" "));
       TokenData token = TokenData.fromJson(json.decode(sp!.getString("currentToken")??" "));
 
 
