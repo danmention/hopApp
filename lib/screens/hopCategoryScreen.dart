@@ -265,8 +265,9 @@ int? selected_area;
       bool isConnected = await br!.checkConnectivity();
       if (isConnected) {
         //   if (_isRecordPending) {
-
+        showOnlyLoaderDialog();
         await apiHelper?.getZone(id!).then((result) {
+          hideLoader();
           if (result != null) {
             if (result.resp_code == "00") {
               List<Zone> _tList = result.data;
@@ -306,8 +307,9 @@ int? selected_area;
       bool isConnected = await br!.checkConnectivity();
       if (isConnected) {
         // if (_isRecordPending) {
-
+        showOnlyLoaderDialog();
         await apiHelper?.getAreaList(id!).then((result) {
+          hideLoader();
           if (result != null) {
             if (result.resp_code == "00") {
               List<Area> _tList = result.data;

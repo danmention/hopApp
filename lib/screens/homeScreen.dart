@@ -241,13 +241,13 @@ var containerList = [
 
         Container(child: Column(children: [
           SizedBox(height: 10,),
-          Text('Top 5 Hop Winners of the week. ', style: Theme.of(context).primaryTextTheme.headline3,) ,
+          Text('Most outstanding Hop Leader\'s of the week. ', style: Theme.of(context).primaryTextTheme.headline3,) ,
           SizedBox(height: 10,),
 
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal:18.0),
-            child: Button(btnText: 'See Monthly Winner\'s',onClick: (){
+            child: Button(btnText: 'See Outstanding Winner\'s',onClick: (){
              // service.showNotification(id: 2, title: " we are here", body: " Building universal life" );
              nextScreen(context, 'winner');
             },),
@@ -291,15 +291,15 @@ var containerList = [
           // padding: const EdgeInsets.all(8.0),
           child: Padding(
             padding: const EdgeInsets.only(left: 16.0),
-            child: Text('Latest Event', style: TextStyle(fontSize: 22)),
+            child: Text('Latest Event', style: TextStyle(fontSize: 20)),
           ),
         ) ,
 
         SizedBox(height: 10),
 
         Container(
-          height: 300,
-          width: 300,
+          height: 280,
+         // width: 500,
           child:
 
           _isDataLoaded
@@ -315,6 +315,7 @@ var containerList = [
 
 
                   Padding(
+
                       padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 8),
 
                       child: InkWell(
@@ -374,18 +375,9 @@ var containerList = [
                               ),
                               SizedBox(height: 2,),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(eventlist[index].title??"",    overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 20, color: Colors.black),),
-                                    // SizedBox(height: 4,),
-                                    // Text(eventlist[index].descriptions??"",
-                                    //   style: TextStyle(fontSize: 13, color: Colors.grey),
-                                    //   overflow: TextOverflow.ellipsis,)
-
-                                  ],),
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(eventlist[index].title??"",    overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 20, color: Colors.black),),
                               ),
 
 

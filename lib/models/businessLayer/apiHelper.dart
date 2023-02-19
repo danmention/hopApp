@@ -998,18 +998,21 @@ class APIHelper {
   Future<dynamic> getUserProfile(int id) async {
     try {
       final response = await http.post(
-        Uri.parse("${global.baseUrl}myprofile"),
+     //   Uri.parse("${global.baseUrl}myprofile"),
+        Uri.parse("${global.baseUrl}profile"),
         headers: await global.getApiHeaders(true),
         body: json.encode({
-          "id": id,
+          "user_id": id,
           
         }),
       );
 
       dynamic recordList;
-      if (response.statusCode == 200 && json.decode(response.body)["status"] == "1") {
-        recordList = CurrentUser.fromJson(json.decode(response.body)["data"]);
-        recordList.token = json.decode(response.body)["token"];
+      if (response.statusCode == 200 && json.decode(response.body)["resp_code"] == "00") {
+      //  recordList = CurrentUser.fromJson(json.decode(response.body)["data"]);
+
+        recordList = List<CurrentUser>.from(json.decode(response.body)["data"].map((x) => CurrentUser.fromJson(x)));
+      //  recordList.token = json.decode(response.body)["token"];
       } else {
         recordList = null;
       }

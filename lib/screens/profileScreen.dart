@@ -27,7 +27,7 @@ class _ProfileScreenState extends BaseState {
   CurrentUser? _user;
   bool _isDataLoaded = true;
   File? _tImage;
-
+  List<CurrentUser> ? _userList;
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -259,13 +259,21 @@ class _ProfileScreenState extends BaseState {
       if (isConnected) {
         await apiHelper?.getUserProfile(global.user.id!).then((result) {
           if (result != null) {
-            if (result.status == "1") {
-              _user = result.recordList;
+            if (result.resp_code == "00") {
+              global.user  = result.recordList[0];
+
+
+
+
+
+              global.sp?.setString('currentUser', json.encode(global.user.toJson()));
+         //     _user = result.recordList;
             //  int _tCartCount = global.user.cart_count;
              // global.user = _user!;
               //global.user.cart_count = _tCartCount;
 
-              global.sp!.setString('currentUser', json.encode(global.user.toJson()));
+            //  global.sp!.setString('currentUser', json.encode(global.user.toJson()));
+              //global.sp!.setString('currentUser', json.encode(global.user.toJson()));
             }
           }
         });
