@@ -3,7 +3,8 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hopleaders/models/response/hopdigest_response.dart';
@@ -17,6 +18,7 @@ import '../models/businessLayer/base.dart';
 import '../models/eventModel.dart';
 import '../utils/flutter_local_notification.dart';
 
+import '../utils/notification_service.dart';
 import '../widget/buttonWidget.dart';
 import '../widget/navbar.dart';
 import '../widget/top_container_widget.dart';
@@ -33,7 +35,7 @@ class _HomeScreenState extends BaseState{
   final StreamController<String?> selectNotificationStream =
   StreamController<String?>.broadcast();
   //late final LocalNotificationService service;
-
+  DateTime scheduleTime = DateTime.now();
 
 
   // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -66,6 +68,7 @@ class _HomeScreenState extends BaseState{
    // _init();
    // _configureDidReceiveLocalNotificationSubject();
  // _configureSelectNotificationSubject();
+
   }
 
 
@@ -251,9 +254,29 @@ var containerList = [
              // service.showNotification(id: 2, title: " we are here", body: " Building universal life" );
              nextScreen(context, 'winner');
             },),
-          )
+          ),
+
+          // TextButton(
+          //   onPressed: () {
+          //     DatePicker.showDateTimePicker(
+          //       context,
+          //       showTitleActions: true,
+          //       onChanged: (date) => scheduleTime = date,
+          //       onConfirm: (date) {},
+          //     );
+          //   },
+          //   child: const Text(
+          //     'Select Date Time',
+          //     style: TextStyle(color: Colors.blue),
+          //   ),
+          // ),
+
+
+
         ],), ),
         SizedBox(height: 15,),
+
+
 
         // Container(
         //     height: 1,
@@ -299,7 +322,7 @@ var containerList = [
 
         Container(
           height: 280,
-         // width: 500,
+
           child:
 
           _isDataLoaded

@@ -3,8 +3,8 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/style.dart';
+
+
 import 'package:shimmer/shimmer.dart';
 
 import '../models/businessLayer/base.dart';
@@ -82,17 +82,18 @@ class _hopScreenState extends BaseState {
                       title: Text(_hopDigestList[index].title!, overflow: TextOverflow.ellipsis, ),
                       subtitle: Container(
                         width:200, child:
+                          Text( "${_hopDigestList[index].desc}")
 
-                      Html(
-                        data: _hopDigestList[index].desc,
-                        style: {
-                          '#': Style(
-                            fontSize: FontSize(12),
-                            maxLines: 1,
-                            textOverflow: TextOverflow.ellipsis,
-                          ),
-                        },
-                      ),
+                      // Html(
+                      //   data: _hopDigestList[index].desc,
+                      //   // style: {
+                      //   //   '#': Style(
+                      //   //     fontSize: FontSize(12),
+                      //   //     maxLines: 1,
+                      //   //     textOverflow: TextOverflow.ellipsis,
+                      //   //   ),
+                      //   // },
+                      // ),
                         //Text(_hopDigestList[index].desc!, overflow: TextOverflow.ellipsis, )
 
 
